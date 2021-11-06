@@ -1,4 +1,9 @@
-.sass-cache/
-*.css.map
-*.sass.map
-*.scss.map
+# Node Packages
+node_modules/
+
+# Parcel
+dist/
+.parcel-cache/
+
+# Logs
+*.log

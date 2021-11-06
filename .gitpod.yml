@@ -1,0 +1,25 @@
+tasks:
+  - init: |
+      yarn install
+    command: |
+      yarn serve
+ports:
+  - port: 1234
+    onOpen: open-preview
+vscode:
+  extensions:
+    - esbenp.prettier-vscode
+    - dbaeumer.vscode-eslint
+    - davidanson.vscode-markdownlint
+    - wix.vscode-import-cost
+    - zignd.html-css-class-completion
+    - christian-kohler.npm-intellisense
+    - christian-kohler.path-intellisense
+github:
+  prebuilds:
+    pullRequestsFromForks: true
+    addComment: true
+gitConfig:
+  alias.st: status
+  alias.glog: log --graph --all
+  alias.unstage: reset HEAD --

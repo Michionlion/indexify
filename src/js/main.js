@@ -1,0 +1,1 @@
+console.log(`Indexify loaded at ${new Date()}`);
