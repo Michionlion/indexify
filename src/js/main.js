@@ -1,12 +1,12 @@
-import {cxpc} from './data';
+import {cxpc} from './data.js';
 import DyGraph from 'dygraphs';
 
 const APP = document.querySelector(`body`);
-const GRAPH = document.querySelector(`#graph`)
-const LEGEND = document.querySelector(`#legend`)
+const GRAPH = document.querySelector(`#graph`);
+const LEGEND = document.querySelector(`#legend`);
 /**
  * Draw a Dygraph of the given material prices.
- * 
+ *
  * @param {string} mat The material to graph
  * @param {string} cx The exchange to pull price data from
  * @returns The Dygraph object
@@ -16,12 +16,12 @@ async function drawChart(mat, cx) {
   cx = cx.toUpperCase();
   let data = await cxpc(mat, cx);
 
-  data = data.map(entry => [
+  data = data.map((entry) => [
     new Date(entry['TimeEpochMs']),
-    Number(entry['Close'].toFixed(2))
-  ])
+    Number(entry['Close'].toFixed(2)),
+  ]);
 
-  options = {
+  const options = {
     title: `${mat}.${cx} Pricing`,
     // animatedZooms: true,
     showRangeSelector: true,
@@ -31,8 +31,8 @@ async function drawChart(mat, cx) {
     labelsSeparateLines: true,
     labelsKMB: true,
     legend: 'always',
-    labels: ['Date', 'Price']
-  }
+    labels: ['Date', 'Price'],
+  };
 
   console.log(options);
 
@@ -47,4 +47,4 @@ console.log(
   `Indexify loaded at ${new Date()} with params ${JSON.stringify(PARAMS)}`
 );
 
-let dygraph = drawChart(PARAMS.mat || "RAT", PARAMS.cx || "IC1");
+let dygraph = drawChart(PARAMS.mat || 'RAT', PARAMS.cx || 'IC1');

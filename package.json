@@ -9,7 +9,7 @@
   "browserslist": "> 0.5%, last 2 versions, not dead",
   "scripts": {
     "serve": "parcel",
-    "build": "parcel build"
+    "build": "rm -rf dist/ && parcel build"
   },
   "devDependencies": {
     "parcel": "latest"
