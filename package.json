@@ -13,5 +13,8 @@
   },
   "devDependencies": {
     "parcel": "latest"
+  },
+  "dependencies": {
+    "dygraphs": "^2.1.0"
   }
 }
