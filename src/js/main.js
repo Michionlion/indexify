@@ -1,4 +1,3 @@
-import ApexCharts from 'apexcharts';
 import {cxpc} from './data';
 import DyGraph from 'dygraphs';
 
