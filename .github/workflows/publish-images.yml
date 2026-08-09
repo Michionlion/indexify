@@ -74,12 +74,10 @@ jobs:
       cancel-in-progress: false
     permissions:
       contents: read
-      packages: read
     steps:
       - name: Deploy exact production release
         shell: bash
         env:
-          GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           RELEASE_SHA: ${{ github.sha }}
         run: |
           set -euo pipefail
@@ -94,9 +92,6 @@ jobs:
           trap cleanup EXIT
           printf 'IMAGE_REF=%s\n' \
             "${IMAGE_NAME}:sha-${RELEASE_SHA}" > "${candidate_file}"
-          printf '%s' "${GHCR_TOKEN}" | \
-            docker --config "${docker_config}" login ghcr.io \
-              --username "${GITHUB_ACTOR}" --password-stdin
           docker --config "${docker_config}" compose \
             --file "${deploy_dir}/compose.yaml" \
             --project-directory "${deploy_dir}" \
