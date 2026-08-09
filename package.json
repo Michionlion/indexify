@@ -12,9 +12,10 @@
     "build": "rm -rf dist/ && parcel build"
   },
   "devDependencies": {
-    "parcel": "latest"
+    "parcel": "2.16.4"
   },
   "dependencies": {
-    "dygraphs": "^2.1.0"
+    "dygraphs": "^2.1.0",
+    "process": "^0.11.10"
   }
 }
