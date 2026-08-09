@@ -1,0 +1,46 @@
+name: CI
+
+on:
+  pull_request:
+  workflow_call:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Install Yarn
+        run: npm install --global yarn@1.22.22
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+      - name: Build application
+        run: yarn build
+      - name: Build and smoke-test image
+        shell: bash
+        run: |
+          set -euo pipefail
+          image="indexify-ci:${GITHUB_SHA}"
+          container=indexify-ci
+          # shellcheck disable=SC2329
+          cleanup() {
+            docker rm --force "${container}" >/dev/null 2>&1 || true
+          }
+          trap cleanup EXIT
+          docker build --tag "${image}" .
+          docker run --detach --name "${container}" "${image}"
+          for attempt in {1..20}; do
+            if [ "$(docker inspect --format '{{.State.Health.Status}}' "${container}")" = healthy ]; then
+              docker exec "${container}" wget -qO- http://127.0.0.1/ >/dev/null
+              exit 0
+            fi
+            echo "Waiting for image health (${attempt}/20)"
+            sleep 1
+          done
+          docker logs "${container}"
+          exit 1
